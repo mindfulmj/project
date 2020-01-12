@@ -14,27 +14,27 @@ def home():
 
 
 @app.route('/closet', methods=['POST'])
-def saving_outerwear():
-    outerwear_image_receive = request.form['outerwear_image_give']
-    outerwear_category_receive = request.form['outerwear_category_give']
-    outerwear_title_receive = request.form['outerwear_title_give']
+def saving():
+    image_receive = request.form['image_give']
+    category_receive = request.form['category_give']
+    title_receive = request.form['title_give']
 
-    outerwear = {
-        'image': outerwear_image_receive,
-        'category': outerwear_category_receive,
-        'title': outerwear_title_receive
+    item = {
+        'image': image_receive,
+        'category': category_receive,
+        'title': title_receive
     }
 
-    db.outerwears.insert_one(outerwear)
+    db.items.insert_one(item)
 
     return jsonify({'result': 'success'})
 
 
 @app.route('/closet', methods=['GET'])
-def listing_outerwear():
-    result = list(db.outerwears.find({}, {'_id': 0}))
+def listing():
+    result = list(db.items.find({}, {'_id': 0}))
 
-    return jsonify({'result': 'success', 'outerwears': result})
+    return jsonify({'result': 'success', 'clothes': result})
 
 
 if __name__ == '__main__':

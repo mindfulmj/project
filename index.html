@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <link rel="icon" href="img/hanger.png">
+  <link rel="icon" href="{{ url_for('static', filename='img/hanger.png') }}">
   <title>What's in My Closet</title>
 
   <!-- css -->
@@ -67,25 +67,25 @@
 
 
        $(document).ready(function(){
-      listing_outerwear();
+      listing();
     });
 
-       function listing_outerwear() {
+       function listing() {
         $.ajax({
           type: "GET",
           url: "/closet",
           data: {},
           success: function(response){
-            let outerwears = response['outerwears'];
+            let outerwears = response['clothes'];
             $('#outerwear_add').empty();
-            for (let i = 0 ; i < outerwears.length; i++) {
-              let outerwear_image = outerwears[i]['image'];
-              let outerwear_category = outerwears[i]['category'];
-              let outerwear_title = orderwears[i]['title'];
+            for (let i = 0 ; i < items.length; i++) {
+              let image = items[i]['image'];
+              let category = items[i]['category'];
+              let title = items[i]['title'];
 
               let temp_html = '<div class="col-md-3 animated fadeInUp mrg-btm">\
-              <a href="'+outerwear_image+'" title="'+outerwear_title+'" data-lightbox-gallery="gallery1">\
-              <img src="'+outerwear_image+'" class="img-responsive" alt="img">\
+              <a href="'+image+'" title="'+title+'" data-lightbox-gallery="gallery1">\
+              <img src="'+image+'" class="img-responsive" alt="img">\
               </a>\
               </div>';
 
@@ -96,7 +96,7 @@
 
       }
 
-      function saving_outerwear() {
+      function saving() {
         let image = $('#save_image').val();
         let category = $('#save_category option:selected').val();
         let title = $('#save_title').val();
@@ -106,7 +106,7 @@
           $.ajax({
             type: "POST",
             url: "/closet",
-            data: { outerwear_image_give:image, outerwear_category_give:category, outerwear_title_give:title },
+            data: { image_give:image, category_give:category, title_give:title },
             success: function(response){
               if(response['result'] == 'success'){
                 alert('Successfully added!');
