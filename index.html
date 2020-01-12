@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <link rel="icon" href="img/hanger.png">
+  <title>What's in My Closet</title>
+
+  <!-- css -->
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ url_for('static', filename='css/nivo-lightbox.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='css/nivo-lightbox-theme/default/default.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ url_for('static', filename='css/animations.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='color/default.css') }}" rel="stylesheet">
+  <!-- =======================================================
+    Theme Name: Bocor
+    Theme URL: https://bootstrapmade.com/bocor-bootstrap-template-nice-animation/
+    Author: BootstrapMade
+    Author URL: https://bootstrapmade.com
+    ======================================================= -->
+
+
+
+    <script type="text/javascript">
+
+      function openclose(){
+        let box_status = $('#add-box').css('display');
+        let box_status2 = $('#add-box2').css('display');
+        if (box_status == "none"){
+          $('#add-box2').hide();
+          $('#add-box').show();
+          $('#btn-add').text('▲ Add New Items');
+          $('#btn-add2').text('▼ Minimalist Challenge');
+        }
+        else {
+          $('#add-box').hide();
+          $('#btn-add').text('▼ Add New Items');
+        }
+      }
+
+      function openclose2(){
+        let box_status = $('#add-box').css('display');
+        let box_status2 = $('#add-box2').css('display');
+        if (box_status2 == "none"){
+          $('#add-box').hide();
+          $('#add-box2').show();
+          $('#btn-add2').text('▲ Minimalist Challenge');
+          $('#btn-add').text('▼ Add New Items');
+        }
+        else {
+          $('#add-box2').hide();
+          $('#btn-add2').text('▼ Minimalist Challenge');
+        }
+      }
+
+
+      function cancel(){
+        $('#add-box').hide();
+      }  
+
+
+       $(document).ready(function(){
+      listing_outerwear();
+    });
+
+       function listing_outerwear() {
+        $.ajax({
+          type: "GET",
+          url: "/closet",
+          data: {},
+          success: function(response){
+            let outerwears = response['outerwears'];
+            $('#outerwear_add').empty();
+            for (let i = 0 ; i < outerwears.length; i++) {
+              let outerwear_image = outerwears[i]['image'];
+              let outerwear_category = outerwears[i]['category'];
+              let outerwear_title = orderwears[i]['title'];
+
+              let temp_html = '<div class="col-md-3 animated fadeInUp mrg-btm">\
+              <a href="'+outerwear_image+'" title="'+outerwear_title+'" data-lightbox-gallery="gallery1">\
+              <img src="'+outerwear_image+'" class="img-responsive" alt="img">\
+              </a>\
+              </div>';
+
+              $('#outerwear_add').append(temp_html);
+            }
+          }
+        })
+
+      }
+
+      function saving_outerwear() {
+        let image = $('#save_image').val();
+        let category = $('#save_category option:selected').val();
+        let title = $('#save_title').val();
+
+        if category == 'Outerwear' {
+
+          $.ajax({
+            type: "POST",
+            url: "/closet",
+            data: { outerwear_image_give:image, outerwear_category_give:category, outerwear_title_give:title },
+            success: function(response){
+              if(response['result'] == 'success'){
+                alert('Successfully added!');
+                window.location.reload();
+              }
+            }
+          })
+        }
+      }
+
+      function add_image() {
+        let temp_html = '<div class="col-md-3 animated fadeInUp mrg-btm">\
+        <a href="img/works/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1">\
+        <img src="img/works/1.jpg" class="img-responsive" alt="img">\
+        </a>\
+        </div>';
+        $('#outerwear_add').append(temp_html);
+      }
+
+
+    </script>
+
+  </head>
+
+
+
+
+  <!-- Navigation -->
+  <div id="navigation">
+    <nav class="navbar navbar-custom" role="navigation">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-2">
+            <div class="site-logo">
+              <a href="index.html" class="brand">#MyCloset</a>
+            </div>
+          </div>
+
+
+          <div class="col-md-10">
+
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
+                <i class="fa fa-bars"></i>
+              </button>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="menu">
+              <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="#Outerwear">Outerwear</a></li>
+                <li><a href="#Knitwear">Knitwear</a></li>
+                <li><a href="#Shirts">Shirts</a></li>
+                <li><a href="#T-Shirts">T-Shirts</a></li>
+                <li><a href="#Jeans/Pants">Jeans/Pants</a></li>
+                <li><a href="#Skirts/Dresses">Skirts/Dresses</a></li>
+                <li><a href="#Bags">Bags</a></li>
+                <li><a href="#Shoes">Shoes</a></li>
+                <li><a href="#Acc/Etc">Acc/Etc</a></li>
+              </ul>
+            </div>
+            <!-- /.Navbar-collapse -->
+
+          </div>
+        </div>
+      </div>
+      <!-- /.container -->
+    </nav>
+  </div>
+  <!-- /Navigation -->
+
+  <!-- Section: intro -->
+  <section id="intro" class="home-section2 color-dark bg-white mrg-btm3">
+    <div class="container marginbot-50">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div class="animatedParent">
+            <div class="section-heading text-center animated bounceInDown">
+              <h2 class="h-bold">What's in My Closet</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<a class="btn btn-skin btn-scroll" onclick="add_image()">임시버튼</a>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 animatedParent mrg-btm2">
+          <div class="text-center">
+            <p> “Simplicity is the ultimate sophistication.” —Leonardo da Vinci </p>
+            <a class="btn btn-skin btn-scroll" id="btn-add" onclick="openclose()">▼ Add New Items</a>
+            <a class="btn btn-skin btn-scroll" id="btn-add2" onclick="openclose2()">▼ Minimalist Challenge</a>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-post jumbotron rounded center" id="add-box" Style="display:none">
+          <div class="center-box">
+           <div class="form-group">
+            <form class="form-inline">
+              <label>Image</label>
+              <input id="save_image" class="form-control input-box1" placeholder="">
+              <a class="btn btn-skin btn-scroll">Search</a>
+            </form>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="save_category" class="form-control input-box2">
+              <option>Outerwear</option>
+              <option>Knitwear</option>
+              <option>Shirts</option>
+              <option>T-Shirts</option>
+              <option>Jeans/Pants</option>
+              <option>Skirts/Dresses</option>
+              <option>Bags</option>
+              <option>Shoes</option>
+              <option>Accessories/Etc</option>
+            </select>
+          </div>
+          <div class="form-group input-box2">
+            <label>Title</label>
+            <input id="save_title" class="form-control" type="text" placeholder="">
+          </div>
+          <a class="empty"></a>
+          <a class="btn btn-skin btn-scroll" onclick="cancel()">Cancel</a>
+          <a class="btn btn-skin btn-scroll">Save</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-post jumbotron rounded center" id="add-box2" Style="display:none">
+          <div class="center-box2">
+           <h7>　You currently have <strong>00</strong> items in your closet!!!</h7><br>
+           <h7>Outerwear: <strong>0</strong></h7><br>
+           <h7>Knitwear: <strong>0</strong></h7><br>
+           <h7>Shirts: <strong>0</strong></h7><br>
+           <h7>T-Shirts: <strong>0</strong></h7><br>
+           <h7>Jeans/Pants: <strong>0</strong></h7><br>
+           <h7>Skirts/Dresses: <strong>0</strong></h7><br>
+           <h7>Bags: <strong>0</strong></h7><br>
+           <h7>Shoes: <strong>0</strong></h7><br>
+           <h7>Acc/Etc: <strong>0</strong></h7>
+          </div>
+        </div>
+
+    </div>
+  </div>
+
+</section>
+  <!-- /Section: intro -->
+
+
+  <!-- Section: Outerwear -->
+  <section id="Outerwear" class="home-section color-dark text-center bg-white">
+    <div class="container marginbot-50">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div>
+            <div class="animatedParent">
+              <div class="section-heading text-center">
+                <h2 class="h-bold animated bounceInDown">Outerwear</h2>
+                <div class="divider-header"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row animatedParent">
+        <div  class="col-sm-12 col-md-12 col-lg-12">
+          <div id="outerwear_add" class="row gallery-item mrg-btm">
+            
+<!--             <div class="col-md-3 animated fadeInUp mrg-btm">
+  <a href="img/works/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+    <img src="img/works/1.jpg" class="img-responsive" alt="img">
+  </a>
+</div>
+          
+<div class="col-md-3 animated fadeInUp slow mrg-btm">
+  <a href="img/works/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+    <img src="img/works/2.jpg" class="img-responsive" alt="img">
+  </a>
+</div>
+          
+<div class="col-md-3 animated fadeInUp slower mrg-btm">
+  <a href="img/works/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+    <img src="img/works/3.jpg" class="img-responsive" alt="img">
+  </a>
+</div>
+          
+<div class="col-md-3 animated fadeInUp mrg-btm">
+  <a href="img/works/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+    <img src="img/works/4.jpg" class="img-responsive" alt="img">
+  </a>
+</div>
+          
+<div class="col-md-3 animated fadeInUp mrg-btm">
+  <a href="img/works/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+    <img src="img/works/5.jpg" class="img-responsive" alt="img">
+  </a>
+</div>
+          
+<div class="col-md-3 animated fadeInUp mrg-btm">
+  <a href="img/works/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+    <img src="img/works/6.jpg" class="img-responsive" alt="img">
+  </a>
+</div>
+          
+<div class="col-md-3 animated fadeInUp mrg-btm">
+  <a href="img/works/7.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+    <img src="img/works/7.jpg" class="img-responsive" alt="img">
+  </a>
+</div>
+          
+<div class="col-md-3 animated fadeInUp mrg-btm">
+  <a href="img/works/8.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+    <img src="img/works/8.jpg" class="img-responsive" alt="img">
+  </a>
+</div> -->
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /Section: Outerwear -->
+
+
+  <!-- Section: Knitwear. -->
+  <section id="Knitwear" class="home-section color-dark text-center bg-white">
+    <div class="container marginbot-50">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div>
+            <div class="animatedParent">
+              <div class="section-heading text-center">
+                <h2 class="h-bold animated bounceInDown">Knitwear</h2>
+                <div class="divider-header"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row animatedParent">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+
+          <div class="row gallery-item mrg-btm">
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/1.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slow mrg-btm">
+              <a href="img/works/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/2.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slower mrg-btm">
+              <a href="img/works/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/3.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/4.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/5.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/6.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/7.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/7.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/8.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/8.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /Section: Knitwear -->
+
+  <!-- Section: Shirts -->
+  <section id="Shirts" class="home-section color-dark text-center bg-white">
+    <div class="container marginbot-50">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div>
+            <div class="animatedParent">
+              <div class="section-heading text-center">
+                <h2 class="h-bold animated bounceInDown">Shirts</h2>
+                <div class="divider-header"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row animatedParent">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+
+          <div class="row gallery-item mrg-btm">
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/1.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slow mrg-btm">
+              <a href="img/works/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/2.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slower mrg-btm">
+              <a href="img/works/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/3.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/4.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/5.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/6.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/7.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/7.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/8.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/8.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /Section: Shirts -->
+
+  <!-- Section: T-Shirts -->
+  <section id="T-Shirts" class="home-section color-dark text-center bg-white">
+    <div class="container marginbot-50">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div>
+            <div class="animatedParent">
+              <div class="section-heading text-center">
+                <h2 class="h-bold animated bounceInDown">T-Shirts</h2>
+                <div class="divider-header"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row animatedParent">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+
+          <div class="row gallery-item mrg-btm">
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/1.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slow mrg-btm">
+              <a href="img/works/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/2.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slower mrg-btm">
+              <a href="img/works/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/3.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/4.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/5.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/6.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/7.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/7.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/8.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/8.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /Section: T-Shirts -->
+
+  <!-- Section: Jeans/Pants -->
+  <section id="Jeans/Pants" class="home-section color-dark text-center bg-white">
+    <div class="container marginbot-50">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div>
+            <div class="animatedParent">
+              <div class="section-heading text-center">
+                <h2 class="h-bold animated bounceInDown">Jeans/Pants</h2>
+                <div class="divider-header"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row animatedParent">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+
+          <div class="row gallery-item mrg-btm">
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/1.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slow mrg-btm">
+              <a href="img/works/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/2.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slower mrg-btm">
+              <a href="img/works/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/3.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/4.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/5.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/6.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/7.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/7.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/8.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/8.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /Section: Jeans/Pants -->
+
+  <!-- Section: Skirts/Dresses -->
+  <section id="Skirts/Dresses" class="home-section color-dark text-center bg-white">
+    <div class="container marginbot-50">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div>
+            <div class="animatedParent">
+              <div class="section-heading text-center">
+                <h2 class="h-bold animated bounceInDown">Skirts/Dresses</h2>
+                <div class="divider-header"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row animatedParent">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+
+          <div class="row gallery-item mrg-btm">
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/1.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slow mrg-btm">
+              <a href="img/works/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/2.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slower mrg-btm">
+              <a href="img/works/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/3.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/4.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/5.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/6.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/7.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/7.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/8.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/8.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /Section: Skirts/Dresses -->
+
+  <!-- Section: Bags -->
+  <section id="Bags" class="home-section color-dark text-center bg-white">
+    <div class="container marginbot-50">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div>
+            <div class="animatedParent">
+              <div class="section-heading text-center">
+                <h2 class="h-bold animated bounceInDown">Bags</h2>
+                <div class="divider-header"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row animatedParent">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+
+          <div class="row gallery-item mrg-btm">
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/1.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slow mrg-btm">
+              <a href="img/works/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/2.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slower mrg-btm">
+              <a href="img/works/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/3.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/4.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/5.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/6.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/7.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/7.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/8.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/8.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /Section: Bags -->
+
+  <!-- Section: Shoes -->
+  <section id="Shoes" class="home-section color-dark text-center bg-white">
+    <div class="container marginbot-50">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div>
+            <div class="animatedParent">
+              <div class="section-heading text-center">
+                <h2 class="h-bold animated bounceInDown">Shoes</h2>
+                <div class="divider-header"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row animatedParent">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+
+          <div class="row gallery-item mrg-btm">
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/1.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slow mrg-btm">
+              <a href="img/works/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/2.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slower mrg-btm">
+              <a href="img/works/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/3.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/4.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/5.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/6.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/7.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/7.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/8.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/8.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /Section: Shoes -->
+
+  <!-- Section: Acc/Etc -->
+  <section id="Acc/Etc" class="home-section color-dark text-center bg-white">
+    <div class="container marginbot-50">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div>
+            <div class="animatedParent">
+              <div class="section-heading text-center">
+                <h2 class="h-bold animated bounceInDown">Accessories/Etc</h2>
+                <div class="divider-header"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row animatedParent">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+
+          <div class="row gallery-item mrg-btm">
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/1.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slow mrg-btm">
+              <a href="img/works/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/2.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp slower mrg-btm">
+              <a href="img/works/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/3.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/4.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/5.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/6.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/7.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/7.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+            <div class="col-md-3 animated fadeInUp mrg-btm">
+              <a href="img/works/8.jpg" title="This is an image title" data-lightbox-gallery="gallery1">
+                <img src="img/works/8.jpg" class="img-responsive" alt="img">
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /Section: Acc/Etc -->
+
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-6 text-right copyright">
+          &copy;Copyright - Bocor. All Rights Reserved
+          <div class="credits">
+            <!--
+              All the links in the footer should remain intact.
+              You can delete the links only if you purchased the pro version.
+              Licensing information: https://bootstrapmade.com/license/
+              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Bocor
+            -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core JavaScript Files -->
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.sticky.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.easing.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.scrollTo.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.appear.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/stellar.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/nivo-lightbox.min.js') }}"></script>
+
+  <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/css3-animate-it.js') }}"></script>
+  <script src="{{ url_for('static', filename='contactform/contactform.js') }}"></script>
+
+</body>
+</html>
